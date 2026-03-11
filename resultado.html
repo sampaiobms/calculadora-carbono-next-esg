@@ -2,20 +2,361 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Resultado - Next-ESG</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Next-ESG - Resultado do Cálculo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: sans-serif; text-align: center; padding: 50px; background: #f4f4f4; }
-        .card { background: white; padding: 40px; border-radius: 20px; display: inline-block; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        .value { font-size: 48px; color: #2E7D32; font-weight: bold; }
-        .btn { display: block; margin-top: 30px; padding: 15px; background: #2E7D32; color: white; text-decoration: none; border-radius: 10px; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 32px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2E7D32;
+        }
+
+        .logo span {
+            color: #1976D2;
+        }
+
+        .btn-back {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .result-card {
+            background: white;
+            border-radius: 20px;
+            padding: 48px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .result-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            font-size: 40px;
+        }
+
+        .result-label {
+            font-size: 14px;
+            color: #666;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .result-value {
+            font-size: 56px;
+            font-weight: 700;
+            color: #2E7D32;
+            margin-bottom: 8px;
+        }
+
+        .result-unit {
+            font-size: 24px;
+            color: #666;
+        }
+
+        .price-section {
+            background: #F5F5F5;
+            border-radius: 16px;
+            padding: 24px;
+            margin-top: 32px;
+        }
+
+        .price-label {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .price-value {
+            font-size: 36px;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+        .breakdown-card {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            margin-bottom: 24px;
+        }
+
+        .breakdown-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 24px;
+        }
+
+        .breakdown-chart {
+            display: flex;
+            height: 24px;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 24px;
+        }
+
+        .chart-segment {
+            height: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .breakdown-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .breakdown-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            background: #fafafa;
+            border-radius: 10px;
+        }
+
+        .breakdown-item-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .breakdown-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+        }
+
+        .breakdown-name {
+            font-size: 14px;
+            color: #444;
+        }
+
+        .breakdown-item-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .breakdown-percent {
+            font-size: 14px;
+            font-weight: 600;
+            color: #666;
+        }
+
+        .breakdown-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .actions {
+            display: flex;
+            gap: 16px;
+        }
+
+        .btn-secondary {
+            flex: 1;
+            padding: 18px 24px;
+            border-radius: 12px;
+            border: 1px solid #ddd;
+            background: white;
+            color: #666;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            border-color: #999;
+            color: #333;
+        }
+
+        .btn-primary {
+            flex: 2;
+            padding: 18px 24px;
+            border-radius: 12px;
+            border: none;
+            background: linear-gradient(135deg, #2E7D32 0%, #1B5E20 100%);
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(46, 125, 50, 0.3);
+        }
+
+        .info-text {
+            text-align: center;
+            color: #999;
+            font-size: 13px;
+            margin-top: 24px;
+        }
+
+        @media (max-width: 600px) {
+            .result-value {
+                font-size: 40px;
+            }
+
+            .price-value {
+                font-size: 28px;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+
+            .btn-primary, .btn-secondary {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="card">
-        <p>Sua pegada de carbono estimada é:</p>
-        <div class="value">12.45 tCO₂e</div>
-        <p>Custo para neutralização: <strong>R$ 1.245,00</strong></p>
-        <a href="pagamento.html" class="btn">Neutralizar Agora</a>
+    <div class="container">
+        <div class="header">
+            <div class="logo">NEXT<span>-ESG</span></div>
+            <a href="simplificada.html" class="btn-back">← Voltar e Editar</a>
+        </div>
+
+        <div class="result-card">
+            <div class="result-icon">🌿</div>
+            <p class="result-label">Total de Emissões Calculadas</p>
+            <div class="result-value">12,45</div>
+            <span class="result-unit">tCO₂e (toneladas de CO₂ equivalente)</span>
+
+            <div class="price-section">
+                <p class="price-label">Valor para Neutralização</p>
+                <p class="price-value">R$ 1.245,00</p>
+            </div>
+        </div>
+
+        <div class="breakdown-card">
+            <h3 class="breakdown-title">Composição das Emissões</h3>
+            
+            <div class="breakdown-chart">
+                <div class="chart-segment" style="width: 45%; background: #2E7D32;"></div>
+                <div class="chart-segment" style="width: 25%; background: #1976D2;"></div>
+                <div class="chart-segment" style="width: 15%; background: #F9A825;"></div>
+                <div class="chart-segment" style="width: 10%; background: #E53935;"></div>
+                <div class="chart-segment" style="width: 5%; background: #9C27B0;"></div>
+            </div>
+
+            <div class="breakdown-list">
+                <div class="breakdown-item">
+                    <div class="breakdown-item-left">
+                        <div class="breakdown-color" style="background: #2E7D32;"></div>
+                        <span class="breakdown-name">Transporte de Convidados</span>
+                    </div>
+                    <div class="breakdown-item-right">
+                        <span class="breakdown-percent">45%</span>
+                        <span class="breakdown-value">5,60 tCO₂e</span>
+                    </div>
+                </div>
+
+                <div class="breakdown-item">
+                    &lt; class="breakdown-item-left">
+                        <div class="breakdown-color" style="background: #1976D2;"></div>
+                        <span class="breakdown-name">Energia Elétrica</span>
+                    </div>
+                    <div class="breakdown-item-right">
+                        <span class="breakdown-percent">25%</span>
+                        <span class="breakdown-value">3,11 tCO₂e</span>
+                    </div>
+                </div>
+
+                <div class="breakdown-item">
+                    <div class="breakdown-item-left">
+                        <div class="breakdown-color" style="background: #F9A825;"></div>
+                        <span class="breakdown-name">Equipe de Trabalho</span>
+                    </div>
+                    <div class="breakdown-item-right">
+                        <span class="breakdown-percent">15%</span>
+                        <span class="breakdown-value">1,87 tCO₂e</span>
+                    </div>
+                </div>
+
+                <div class="breakdown-item">
+                    <div class="breakdown-item-left">
+                        <div class="breakdown-color" style="background: #E53935;"></div>
+                        <span class="breakdown-name">Montagem e Desmontagem</span>
+                    </div>
+                    <div class="breakdown-item-right">
+                        <span class="breakdown-percent">10%</span>
+                        <span class="breakdown-value">1,25 tCO₂e</span>
+                    </div>
+                </div>
+
+                <div class="breakdown-item">
+                    <div class="breakdown-item-left">
+                        <div class="breakdown-color" style="background: #9C27B0;"></div>
+                        <span class="breakdown-name">Resíduos</span>
+                    </div>
+                    <div class="breakdown-item-right">
+                        <span class="breakdown-percent">5%</span>
+                        <span class="breakdown-value">0,62 tCO₂e</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button class="btn-secondary" onclick="window.location.href='simplificada.html'">Voltar e Editar</button>
+            <button class="btn-primary" onclick="window.location.href='pagamento.html'">
+                Comprar e Neutralizar
+            </button>
+        </div>
+
+        <p class="info-text">O pagamento será processado de forma segura. Após a confirmação, você receberá seu certificado de neutralização.</p>
     </div>
 </body>
 </html>
