@@ -2,26 +2,369 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Next-ESG - Simplificada</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Next-ESG - Neutralização Simplificada</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Estilos baseados no formulário anterior */
-        body { font-family: 'Inter', sans-serif; background: #f5f7fa; padding: 40px; }
-        .container { max-width: 600px; margin: 0 auto; background: white; padding: 32px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-        .form-group { margin-bottom: 20px; }
-        label { display: block; font-size: 14px; margin-bottom: 8px; font-weight: 500; }
-        input, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; }
-        .btn-primary { width: 100%; padding: 16px; background: #2E7D32; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 680px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 32px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2E7D32;
+        }
+
+        .logo span {
+            color: #1976D2;
+        }
+
+        .btn-back {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .btn-back:hover {
+            color: #2E7D32;
+        }
+
+        .page-header {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        .page-tag {
+            display: inline-block;
+            background: #E8F5E9;
+            color: #2E7D32;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .page-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+
+        .page-description {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .form-container {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        .form-section {
+            margin-bottom: 32px;
+        }
+
+        .form-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            flex: 1;
+        }
+
+        .form-group.full {
+            width: 100%;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            color: #444;
+            margin-bottom: 8px;
+        }
+
+        label .required {
+            color: #E53935;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+            background: #fafafa;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #2E7D32;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+        }
+
+        input::placeholder {
+            color: #999;
+        }
+
+        select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 16px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #fafafa;
+        }
+
+        .radio-option:hover {
+            border-color: #2E7D32;
+            background: white;
+        }
+
+        .radio-option input {
+            width: auto;
+            margin: 0;
+        }
+
+        .radio-option.selected {
+            border-color: #2E7D32;
+            background: #E8F5E9;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 16px;
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid #eee;
+        }
+
+        .btn-secondary {
+            flex: 1;
+            padding: 16px 24px;
+            border-radius: 12px;
+            border: 1px solid #ddd;
+            background: white;
+            color: #666;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            border-color: #999;
+            color: #333;
+        }
+
+        .btn-primary {
+            flex: 2;
+            padding: 16px 24px;
+            border-radius: 12px;
+            border: none;
+            background: #2E7D32;
+            color: white;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: #1B5E20;
+        }
+
+        .btn-primary:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .helper-text {
+            font-size: 12px;
+            color: #999;
+            margin-top: 6px;
+        }
+
+        @media (max-width: 600px) {
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .btn-primary, .btn-secondary {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>Neutralização Simplificada</h2>
-        <form action="resultado.html">
-            <div class="form-group"><label>Nome do Evento</label><input type="text" required></div>
-            <div class="form-group"><label>Local</label><input type="text" required></div>
-            <div class="form-group"><label>Número de Convidados</label><input type="number" required></div>
-            <button type="submit" class="btn-primary">Calcular Emissões</button>
+        <div class="header">
+            <div class="logo">NEXT<span>-ESG</span></div>
+            <a href="index.html" class="btn-back">← Voltar</a>
+        </div>
+
+        <div class="page-header">
+            <span class="page-tag">⚡ Simplificada</span>
+            <h1 class="page-title">Neutralização Simplificada</h1>
+            <p class="page-description">Preencha os dados do seu evento para calcular as emissões de carbono. Campos marcados com <span style="color: #E53935;">*</span> são obrigatórios.</p>
+        </div>
+
+        <form class="form-container">
+            <div class="form-section">
+                <h3 class="section-title">Informações do Cliente</h3>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Nome do Cliente <span class="required">*</span></label>
+                        <input type="text" placeholder="Digite o nome completo ou razão social" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Nome do Evento <span class="required">*</span></label>
+                        <input type="text" placeholder="Ex: Conferência de Sustentabilidade 2026" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3 class="section-title">Detalhes do Evento</h3>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Modalidade do Evento <span class="required">*</span></label>
+                        <select required>
+                            <option value="">Selecione a modalidade</option>
+                            <option value="presencial">Presencial</option>
+                            <option value="hibrido">Híbrido</option>
+                            <option value="online">Online</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group full">
+                        <label>Endereço do Evento <span class="required">*</span></label>
+                        <input type="text" placeholder="Digite o endereço completo" required>
+                        <p class="helper-text">Inclua rua, número, bairro, cidade e estado</p>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Data de Início <span class="required">*</span></label>
+                        <input type="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Data de Término <span class="required">*</span></label>
+                        <input type="date" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3 class="section-title">Participantes</h3>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Número de Convidados <span class="required">*</span></label>
+                        <input type="number" placeholder="Ex: 500" min="1" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Pessoas (Montagem/Desmontagem)</label>
+                        <input type="number" placeholder="Ex: 30" min="0">
+                        <p class="helper-text">Equipe técnica de montagem e desmontagem</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Pessoas Trabalhando no Evento</label>
+                        <input type="number" placeholder="Ex: 50" min="0">
+                        <p class="helper-text">Staff, segurança, buffet, etc.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" class="btn-secondary" onclick="window.location.href='index.html'">Cancelar</button>
+                <button type="submit" class="btn-primary">Calcular Emissões</button>
+            </div>
         </form>
     </div>
 </body>
