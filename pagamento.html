@@ -2,24 +2,564 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Pagamento - Next-ESG</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Next-ESG - Pagamento</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: sans-serif; display: flex; justify-content: center; padding: 50px; }
-        .pay-form { width: 400px; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px; }
-        .btn { width: 100%; padding: 15px; background: #1976D2; color: white; border: none; border-radius: 10px; cursor: pointer; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 32px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2E7D32;
+        }
+
+        .logo span {
+            color: #1976D2;
+        }
+
+        .btn-back {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .btn-back:hover {
+            color: #333;
+        }
+
+        .page-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+
+        .page-subtitle {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 32px;
+        }
+
+        .payment-grid {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 24px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            color: #444;
+            margin-bottom: 8px;
+        }
+
+        label .required {
+            color: #E53935;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+            background: #fafafa;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #1976D2;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
+        }
+
+        input::placeholder {
+            color: #999;
+        }
+
+        .input-row {
+            display: flex;
+            gap: 16px;
+        }
+
+        .input-row .form-group {
+            flex: 1;
+        }
+
+        .card-preview {
+            background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
+            border-radius: 16px;
+            padding: 24px;
+            color: white;
+            margin-bottom: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-preview::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+        }
+
+        .card-chip {
+            width: 40px;
+            height: 30px;
+            background: linear-gradient(135deg, #F9A825 0%, #F57F17 100%);
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+
+        .card-number-display {
+            font-size: 20px;
+            font-weight: 500;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .card-info-row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .card-holder-label, .card-expiry-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            opacity: 0.7;
+            margin-bottom: 4px;
+        }
+
+        .card-holder-name, .card-expiry-value {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .card-brands {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .card-brand {
+            width: 48px;
+            height: 30px;
+            background: #f5f5f5;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+            color: #666;
+        }
+
+        .security-badges {
+            display: flex;
+            gap: 16px;
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid #eee;
+        }
+
+        .security-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .security-badge .icon {
+            font-size: 16px;
+        }
+
+        .summary-card {
+            position: sticky;
+            top: 20px;
+        }
+
+        .summary-event {
+            background: #f5f5f5;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+
+        .summary-event-name {
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+        }
+
+        .summary-event-date {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .summary-row:last-child {
+            border-bottom: none;
+        }
+
+        .summary-label {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .summary-value {
+            color: #1a1a1a;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .summary-total {
+            background: #E8F5E9;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 16px;
+        }
+
+        .summary-total-label {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+
+        .summary-total-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #2E7D32;
+        }
+
+        .summary-total-emission {
+            font-size: 14px;
+            color: #666;
+            margin-top: 8px;
+        }
+
+        .btn-pay {
+            width: 100%;
+            padding: 18px 24px;
+            border-radius: 12px;
+            border: none;
+            background: linear-gradient(135deg, #2E7D32 0%, #1B5E20 100%);
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-pay:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(46, 125, 50, 0.3);
+        }
+
+        .btn-pay:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .terms {
+            text-align: center;
+            font-size: 12px;
+            color: #999;
+            margin-top: 16px;
+        }
+
+        .terms a {
+            color: #1976D2;
+            text-decoration: none;
+        }
+
+        .processing-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.95);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .processing-overlay.active {
+            display: flex;
+        }
+
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid #f0f0f0;
+            border-top-color: #2E7D32;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 24px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .processing-text {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .processing-subtext {
+            font-size: 14px;
+            color: #666;
+            margin-top: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .payment-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .summary-card {
+                position: static;
+                order: -1;
+            }
+
+            .input-row {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="pay-form">
-        <h3>Pagamento com Cartão</h3>
-        <input type="text" placeholder="Número do Cartão">
-        <input type="text" placeholder="Nome no Cartão">
-        <div style="display:flex; gap:10px;">
-            <input type="text" placeholder="MM/AA">
-            <input type="text" placeholder="CVV">
+    <div class="container">
+        <div class="header">
+            <div class="logo">NEXT<span>-ESG</span></div>
+            <a href="resultado-detalhada.html" class="btn-back">← Voltar</a>
         </div>
-        <button class="btn" onclick="location.href='certificado.html'">Confirmar Pagamento</button>
+
+        <h1 class="page-title">Pagamento Seguro</h1>
+        <p class="page-subtitle">Finalize a neutralização do seu evento</p>
+
+        <div class="payment-grid">
+            <div class="card">
+                <h2 class="card-title">💳 Dados do Cartão</h2>
+
+                <div class="card-preview">
+                    <div class="card-chip"></div>
+                    <div class="card-number-display">•••• •••• •••• ••••</div>
+                    <div class="card-info-row">
+                        <div>
+                            <div class="card-holder-label">Nome no Cartão</div>
+                            <div class="card-holder-name">SEU NOME AQUI</div>
+                        </div>
+                        <div>
+                            <div class="card-expiry-label">Validade</div>
+                            <div class="card-expiry-value">MM/AA</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-brands">
+                    <div class="card-brand">VISA</div>
+                    <div class="card-brand">MC</div>
+                    <div class="card-brand">AMEX</div>
+                    <div class="card-brand">ELO</div>
+                </div>
+
+                <form style="margin-top: 24px;">
+                    <div class="form-group">
+                        <label>Número do Cartão <span class="required">*</span></label>
+                        <input type="text" placeholder="0000 0000 0000 0000" maxlength="19" id="card-number">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Nome no Cartão <span class="required">*</span></label>
+                        <input type="text" placeholder="Como está impresso no cartão" id="card-name">
+                    </div>
+
+                    <div class="input-row">
+                        <div class="form-group">
+                            <label>Validade (MM/AA) <span class="required">*</span></label>
+                            <input type="text" placeholder="MM/AA" maxlength="5" id="card-expiry">
+                        </div>
+                        <div class="form-group">
+                            <label>CVV <span class="required">*</span></label>
+                            <input type="text" placeholder="123" maxlength="4" id="card-cvv">
+                        </div>
+                    </div>
+
+                    <div class="security-badges">
+                        <div class="security-badge">
+                            <span class="icon">🔒</span>
+                            <span>Dados criptografados</span>
+                        </div>
+                        <div class="security-badge">
+                            <span class="icon">✓</span>
+                            <span>Pagamento seguro</span>
+                        </div>
+                        <div class="security-badge">
+                            <span class="icon">🛡️</span>
+                            <span>Certificado SSL</span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card summary-card">
+                <h2 class="card-title">📋 Resumo</h2>
+
+                <div class="summary-event">
+                    <div class="summary-event-name">Conferência de Sustentabilidade 2026</div>
+                    <div class="summary-event-date">08/03/2026 - 10/03/2026</div>
+                </div>
+
+                <div class="summary-row">
+                    <span class="summary-label">Emissões Calculadas</span>
+                    <span class="summary-value">18,75 tCO₂e</span>
+                </div>
+
+                <div class="summary-row">
+                    <span class="summary-label">Participantes</span>
+                    <span class="summary-value">500 pessoas</span>
+                </div>
+
+                <div class="summary-row">
+                    <span class="summary-label">Modalidade</span>
+                    <span class="summary-value">Detalhada</span>
+                </div>
+
+                <div class="summary-row">
+                    <span class="summary-label">Inclui</span>
+                    <span class="summary-value">Dashboard + QR Codes</span>
+                </div>
+
+                <div class="summary-total">
+                    <div class="summary-total-label">Total a Pagar</div>
+                    <div class="summary-total-value">R$ 1.875,00</div>
+                    <div class="summary-total-emission">18,75 tCO₂e neutralizados</div>
+                </div>
+
+                <button class="btn-pay" onclick="processPayment()">
+                    🔒 Pagar R$ 1.875,00
+                </button>
+
+                <p class="terms">
+                    Ao confirmar, você concorda com nossos <a href="#">Termos de Uso</a> e <a href="#">Política de Privacidade</a>
+                </p>
+            </div>
+        </div>
     </div>
+
+    <div class="processing-overlay" id="processing">
+        <div class="spinner"></div>
+        <div class="processing-text">Processando pagamento...</div>
+        <div class="processing-subtext">Por favor, aguarde. Não feche esta página.</div>
+    </div>
+
+    <script>
+        document.getElementById('card-number').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\s/g, '').replace(/\D/g, '');
+            let formatted = value.match(/.{1,4}/g)?.join(' ') || value;
+            e.target.value = formatted;
+            
+            let display = formatted || '•••• •••• •••• ••••';
+            document.querySelector('.card-number-display').textContent = display;
+        });
+
+        document.getElementById('card-name').addEventListener('input', function(e) {
+            let value = e.target.value.toUpperCase();
+            e.target.value = value;
+            document.querySelector('.card-holder-name').textContent = value || 'SEU NOME AQUI';
+        });
+
+        document.getElementById('card-expiry').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length >= 2) {
+                value = value.substring(0, 2) + '/' + value.substring(2, 4);
+            }
+            e.target.value = value;
+            document.querySelector('.card-expiry-value').textContent = value || 'MM/AA';
+        });
+
+        function processPayment() {
+            document.getElementById('processing').classList.add('active');
+            setTimeout(() => {
+                window.location.href = 'certificado-detalhada.html';
+            }, 3000);
+        }
+    </script>
 </body>
 </html>
