@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Next-ESG - Neutralização Simplificada</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%); min-height: 100vh; padding: 40px 20px; }
@@ -43,6 +44,7 @@
         .btn-primary:hover { background: #1B5E20; }
         .btn-primary:disabled { background: #ccc; cursor: not-allowed; }
         .helper-text { font-size: 12px; color: #999; margin-top: 6px; }
+
         @media (max-width: 600px) {
             .form-row { flex-direction: column; gap: 0; }
             .form-actions { flex-direction: column; }
@@ -55,7 +57,9 @@
     <div class="container">
         <div class="header">
             <div class="logo">NEXT<span>-ESG</span></div>
-            <a href="index.html" class="btn-back">← Voltar</a>
+
+            <!-- Ajuste: voltar para a página anterior -->
+            <a href="javascript:void(0)" class="btn-back" onclick="history.back()">← Voltar</a>
         </div>
 
         <div class="page-header">
@@ -64,8 +68,8 @@
             <p class="page-description">Preencha os dados do seu evento para calcular as emissões de carbono. Campos marcados com <span style="color: #E53935;">*</span> são obrigatórios.</p>
         </div>
 
-        <!-- ALTERAÇÃO: action="resultado.html" para enviar ao clicar em "Calcular Emissões" -->
-        <form class="form-container" action="resultado.html" method="get">
+        <!-- Ajuste: impedir submit padrão para não travar por validação required -->
+        <form class="form-container" onsubmit="return false;">
             <div class="form-section">
                 <h3 class="section-title">Informações do Cliente</h3>
 
@@ -112,6 +116,7 @@
                         <label>Data de Início <span class="required">*</span></label>
                         <input type="date" required>
                     </div>
+
                     <div class="form-group">
                         <label>Data de Término <span class="required">*</span></label>
                         <input type="date" required>
@@ -145,11 +150,11 @@
             </div>
 
             <div class="form-actions">
-                <!-- ALTERAÇÃO: Cancelar volta para a página anterior -->
+                <!-- Cancelar: volta para a página anterior -->
                 <button type="button" class="btn-secondary" onclick="history.back()">Cancelar</button>
 
-                <!-- Submit do form vai para resultado.html por causa do action -->
-                <button type="submit" class="btn-primary">Calcular Emissões</button>
+                <!-- Calcular: navega diretamente para resultado.html -->
+                <button type="button" class="btn-primary" onclick="window.location.href='resultado.html'">Calcular Emissões</button>
             </div>
         </form>
     </div>
