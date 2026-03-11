@@ -135,4 +135,310 @@
             gap: 48px;
             margin: 32px 0;
             padding: 24px;
-            background: #F5F5F
+            background: #F5F5F5;
+            border-radius: 12px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #2E7D32;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        .certificate-code {
+            background: #fafafa;
+            border: 1px dashed #ddd;
+            border-radius: 8px;
+            padding: 16px 24px;
+            margin: 24px 0;
+            display: inline-block;
+        }
+
+        .certificate-code-label {
+            font-size: 11px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .certificate-code-value {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a1a1a;
+            font-family: 'Courier New', monospace;
+        }
+
+        .certificate-date {
+            color: #666;
+            font-size: 14px;
+            margin-top: 24px;
+        }
+
+        .certificate-seal {
+            width: 100px;
+            height: 100px;
+            margin: 32px auto 0;
+            background: linear-gradient(135deg, #F9A825 0%, #F57F17 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 16px rgba(249, 168, 37, 0.3);
+        }
+
+        .seal-inner {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 16px;
+            margin-top: 32px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 16px 24px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: #2E7D32;
+            color: white;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background: #1B5E20;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #666;
+            border: 1px solid #ddd;
+        }
+
+        .btn-secondary:hover {
+            border-color: #999;
+            color: #333;
+        }
+
+        .btn-accent {
+            background: linear-gradient(135deg, #F9A825 0%, #F57F17 100%);
+            color: white;
+            border: none;
+        }
+
+        .btn-accent:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(249, 168, 37, 0.3);
+        }
+
+        .share-section {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-top: 24px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        .share-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 16px;
+        }
+
+        .share-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .share-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .share-btn.linkedin {
+            background: #0077B5;
+            color: white;
+        }
+
+        .share-btn.twitter {
+            background: #1DA1F2;
+            color: white;
+        }
+
+        .share-btn.facebook {
+            background: #1877F2;
+            color: white;
+        }
+
+        .share-btn.whatsapp {
+            background: #25D366;
+            color: white;
+        }
+
+        .share-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .info-text {
+            text-align: center;
+            color: #999;
+            font-size: 13px;
+            margin-top: 24px;
+        }
+
+        @media (max-width: 600px) {
+            .certificate-wrapper {
+                padding: 24px;
+            }
+
+            .certificate {
+                padding: 24px;
+            }
+
+            .certificate-title {
+                font-size: 28px;
+            }
+
+            .certificate-event {
+                font-size: 20px;
+            }
+
+            .certificate-stats {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+
+            .share-buttons {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">NEXT<span>-ESG</span></div>
+            <div class="success-badge">✓ Neutralização Confirmada</div>
+        </div>
+
+        <div class="certificate-wrapper">
+            <div class="certificate">
+                <div class="certificate-header">
+                    <div class="certificate-logo">NEXT<span>-ESG</span></div>
+                    <p class="certificate-subtitle">Plataforma de Neutralização de Carbono</p>
+                </div>
+
+                <h1 class="certificate-title">Certificado de Neutralização</h1>
+                <div class="certificate-divider"></div>
+
+                <p class="certificate-body">
+                    Este certificado atesta que o evento abaixo teve suas emissões de carbono 
+                    completamente neutralizadas através da compra de créditos de carbono 
+                    certificados e verificados.
+                </p>
+
+                <h2 class="certificate-event">Conferência de Sustentabilidade 2026</h2>
+
+                <div class="certificate-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">12,45</div>
+                        <div class="stat-label">tCO₂e Neutralizados</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">R$ 1.245,00</div>
+                        <div class="stat-label">Valor Investido</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">500</div>
+                        <div class="stat-label">Participantes</div>
+                    </div>
+                </div>
+
+                <div class="certificate-code">
+                    <p class="certificate-code-label">Código de Validação</p>
+                    <p class="certificate-code-value">NESG-2026-CONF-00847</p>
+                </div>
+
+                <p class="certificate-date">Emitido em: 08 de Março de 2026</p>
+
+                <div class="certificate-seal">
+                    <div class="seal-inner">🌿</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button class="btn btn-secondary" onclick="window.print()">
+                🖨️ Imprimir
+            </button>
+            <button class="btn btn-primary">
+                📥 Baixar PDF
+            </button>
+            <button class="btn btn-accent">
+                🔗 Compartilhar
+            </button>
+        </div>
+
+        <div class="share-section">
+            <h3 class="share-title">Compartilhar nas Redes Sociais</h3>
+            <div class="share-buttons">
+                <button class="share-btn linkedin" title="LinkedIn">in</button>
+                <button class="share-btn twitter" title="Twitter">𝕏</button>
+                <button class="share-btn facebook" title="Facebook">f</button>
+                <button class="share-btn whatsapp" title="WhatsApp">📱</button>
+            </div>
+        </div>
+
+        <p class="info-text">
+            Este certificado pode ser validado em: <strong>next-esg.com/validar</strong><br>
+            Digite o código de validação para verificar a autenticidade.
+        </p>
+    </div>
+</body>
+</html>
