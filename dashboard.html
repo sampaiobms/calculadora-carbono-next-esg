@@ -2,20 +2,525 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard - Next-ESG</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Next-ESG - Dashboard de Neutralização</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: sans-serif; background: #f0f2f5; padding: 30px; }
-        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-        .card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .big-num { font-size: 32px; font-weight: bold; color: #1976D2; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f7fa;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: white;
+            padding: 20px 40px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2E7D32;
+        }
+
+        .logo span {
+            color: #1976D2;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 16px;
+        }
+
+        .btn-outline {
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            background: white;
+            color: #666;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline:hover {
+            border-color: #1976D2;
+            color: #1976D2;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 32px 40px;
+        }
+
+        .page-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+
+        .event-name {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 32px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 16px;
+        }
+
+        .stat-icon.green {
+            background: #E8F5E9;
+        }
+
+        .stat-icon.blue {
+            background: #E3F2FD;
+        }
+
+        .stat-icon.orange {
+            background: #FFF3E0;
+        }
+
+        .stat-icon.purple {
+            background: #F3E5F5;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .stat-change {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 8px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .stat-change.positive {
+            color: #2E7D32;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .progress-bar {
+            height: 24px;
+            background: #f0f0f0;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 16px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #2E7D32, #4CAF50);
+            border-radius: 12px;
+            transition: width 0.5s ease;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .progress-percent {
+            font-weight: 600;
+            color: #2E7D32;
+        }
+
+        .chart-placeholder {
+            height: 200px;
+            background: linear-gradient(180deg, #E8F5E9 0%, #C8E6C9 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .participants-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .participant-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .participant-item:last-child {
+            border-bottom: none;
+        }
+
+        .participant-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .participant-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #E3F2FD, #BBDEFB);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #1976D2;
+        }
+
+        .participant-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: #1a1a1a;
+        }
+
+        .participant-time {
+            font-size: 12px;
+            color: #999;
+        }
+
+        .participant-emission {
+            text-align: right;
+        }
+
+        .emission-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: #2E7D32;
+        }
+
+        .emission-label {
+            font-size: 11px;
+            color: #999;
+        }
+
+        .qr-section {
+            margin-top: 24px;
+        }
+
+        .qr-card {
+            background: linear-gradient(135deg, #1976D2 0%, #1565C0 100%);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+            color: white;
+        }
+
+        .qr-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .qr-description {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 24px;
+        }
+
+        .qr-code {
+            width: 160px;
+            height: 160px;
+            background: white;
+            border-radius: 12px;
+            margin: 0 auto 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .qr-link {
+            font-size: 12px;
+            opacity: 0.8;
+            margin-bottom: 24px;
+            word-break: break-all;
+        }
+
+        .btn-white {
+            padding: 12px 24px;
+            border-radius: 8px;
+            border: none;
+            background: white;
+            color: #1976D2;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-white:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        @media (max-width: 1024px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .header {
+                padding: 16px 20px;
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .container {
+                padding: 24px 20px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .page-title {
+                font-size: 24px;
+            }
+        }
     </style>
 </head>
 <body>
-    <h1>Dashboard do Evento</h1>
-    <div class="grid">
-        <div class="card"><p>Participantes</p><div class="big-num">156 / 500</div></div>
-        <div class="card"><p>Total Neutralizado</p><div class="big-num">8.34 tCO₂e</div></div>
-        <div class="card"><p>Engajamento</p><div class="big-num">31%</div></div>
+    <div class="header">
+        <div class="logo">NEXT<span>-ESG</span></div>
+        <div class="header-actions">
+            <button class="btn-outline">← Voltar</button>
+            <button class="btn-outline">Certificado</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1 class="page-title">Dashboard de Neutralização</h1>
+        <p class="event-name">Conferência de Sustentabilidade 2026</p>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon green">👥</div>
+                <div class="stat-value">156 / 500</div>
+                <div class="stat-label">Participantes Neutralizados</div>
+                <div class="stat-change positive">↑ 12 na última hora</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon blue">🌿</div>
+                <div class="stat-value">8,34 tCO₂e</div>
+                <div class="stat-label">Total Neutralizado</div>
+                <div class="stat-change positive">↑ 0,65 tCO₂e hoje</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon orange">📊</div>
+                <div class="stat-value">67%</div>
+                <div class="stat-label">Meta de Engajamento</div>
+                <div class="stat-change positive">↑ 5% desde ontem</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon purple">💰</div>
+                <div class="stat-value">R$ 834,00</div>
+                <div class="stat-label">Total Arrecadado</div>
+                <div class="stat-change positive">↑ R$ 65,00 hoje</div>
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Progresso da Neutralização</h3>
+                </div>
+
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 31%;"></div>
+                </div>
+                <div class="progress-info">
+                    <span>156 de 500 participantes neutralizaram</span>
+                    <span class="progress-percent">31%</span>
+                </div>
+
+                <div style="margin-top: 32px;">
+                    <h4 style="font-size: 16px; font-weight: 600; margin-bottom: 16px;">Emissões por Categoria</h4>
+                    <div class="chart-placeholder">
+                        [Gráfico de barras - Emissões ao longo do tempo]
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Últimas Neutralizações</h3>
+                    </div>
+
+                    <div class="participants-list">
+                        <div class="participant-item">
+                            <div class="participant-info">
+                                <div class="participant-avatar">MS</div>
+                                <div>
+                                    <div class="participant-name">Maria Silva</div>
+                                    <div class="participant-time">Há 5 minutos</div>
+                                </div>
+                            </div>
+                            <div class="participant-emission">
+                                <div class="emission-value">45 kgCO₂e</div>
+                                <div class="emission-label">R$ 4,50</div>
+                            </div>
+                        </div>
+
+                        <div class="participant-item">
+                            <div class="participant-info">
+                                <div class="participant-avatar">JC</div>
+                                <div>
+                                    <div class="participant-name">João Costa</div>
+                                    <div class="participant-time">Há 12 minutos</div>
+                                </div>
+                            </div>
+                            <div class="participant-emission">
+                                <div class="emission-value">38 kgCO₂e</div>
+                                <div class="emission-label">R$ 3,80</div>
+                            </div>
+                        </div>
+
+                        <div class="participant-item">
+                            <div class="participant-info">
+                                <div class="participant-avatar">AF</div>
+                                <div>
+                                    <div class="participant-name">Ana Ferreira</div>
+                                    <div class="participant-time">Há 18 minutos</div>
+                                </div>
+                            </div>
+                            <div class="participant-emission">
+                                <div class="emission-value">52 kgCO₂e</div>
+                                <div class="emission-label">R$ 5,20</div>
+                            </div>
+                        </div>
+
+                        <div class="participant-item">
+                            <div class="participant-info">
+                                <div class="participant-avatar">RL</div>
+                                <div>
+                                    <div class="participant-name">Roberto Lima</div>
+                                    <div class="participant-time">Há 25 minutos</div>
+                                </div>
+                            </div>
+                            <div class="participant-emission">
+                                <div class="emission-value">61 kgCO₂e</div>
+                                <div class="emission-label">R$ 6,10</div>
+                            </div>
+                        </div>
+
+                        <div class="participant-item">
+                            <div class="participant-info">
+                                <div class="participant-avatar">PC</div>
+                                <div>
+                                    <div class="participant-name">Paula Castro</div>
+                                    <div class="participant-time">Há 32 minutos</div>
+                                </div>
+                            </div>
+                            <div class="participant-emission">
+                                <div class="emission-value">29 kgCO₂e</div>
+                                <div class="emission-label">R$ 2,90</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="qr-section">
+                    <div class="qr-card">
+                        <h3 class="qr-title">QR Code do Evento</h3>
+                        <p class="qr-description">Compartilhe este QR Code para que os participantes neutralizem suas emissões</p>
+                        
+                        <div class="qr-code">
+                            [QR CODE]
+                        </div>
+                        
+                        <p class="qr-link">next-esg.com/evento/NESG-2026-CONF</p>
+                        
+                        <button class="btn-white">📥 Download QR Code</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>
