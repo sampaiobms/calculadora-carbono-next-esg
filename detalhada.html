@@ -1,48 +1,48 @@
-<!DOCTYPE html>\
-<html lang="pt-BR">\
-<head>\
-    <meta charset="UTF-8">\
-    <title>Next-ESG - Detalhada</title>\
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">\
-    <style>\
-        /* Estilos do Wizard de 4 etapas */\
-        body \{ font-family: 'Inter', sans-serif; background: #f5f7fa; padding: 40px; \}\
-        .wizard \{ max-width: 800px; margin: 0 auto; background: white; padding: 32px; border-radius: 16px; \}\
-        .step \{ display: none; \}\
-        .step.active \{ display: block; \}\
-        .progress-bar \{ height: 8px; background: #eee; border-radius: 4px; margin-bottom: 32px; \}\
-        .progress-fill \{ height: 100%; background: #1976D2; width: 25%; transition: 0.3s; \}\
-        .btn-group \{ display: flex; gap: 16px; margin-top: 24px; \}\
-        .btn \{ padding: 12px 24px; border-radius: 8px; cursor: pointer; border: none; font-weight: 600; \}\
-        .btn-next \{ background: #1976D2; color: white; \}\
-        .btn-prev \{ background: #eee; \}\
-    </style>\
-</head>\
-<body>\
-    <div class="wizard">\
-        <div class="progress-bar"><div class="progress-fill" id="fill"></div></div>\
-        <form action="resultado.html">\
-            <div class="step active" id="step1"><h3>Passo 1: Dados do Evento</h3><input type="text" placeholder="Nome do Evento"></div>\
-            <div class="step" id="step2"><h3>Passo 2: Log\'edstica</h3><input type="number" placeholder="KM rodados"></div>\
-            <div class="step" id="step3"><h3>Passo 3: Energia</h3><input type="number" placeholder="kWh consumidos"></div>\
-            <div class="step" id="step4"><h3>Passo 4: Res\'edduos</h3><input type="number" placeholder="Kg de lixo"></div>\
-            \
-            <div class="btn-group">\
-                <button type="button" class="btn btn-prev" onclick="changeStep(-1)">Anterior</button>\
-                <button type="button" class="btn btn-next" id="nextBtn" onclick="changeStep(1)">Pr\'f3ximo</button>\
-            </div>\
-        </form>\
-    </div>\
-    <script>\
-        let currentStep = 1;\
-        function changeStep(n) \{\
-            if (n === 1 && currentStep === 4) return;\
-            document.getElementById('step' + currentStep).classList.remove('active');\
-            currentStep += n;\
-            document.getElementById('step' + currentStep).classList.add('active');\
-            document.getElementById('fill').style.width = (currentStep * 25) + '%';\
-            if (currentStep === 4) document.getElementById('nextBtn').innerText = 'Calcular';\
-        \}\
-    </script>\
-</body>\
-</html>}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Next-ESG - Detalhada</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos do Wizard de 4 etapas */
+        body { font-family: 'Inter', sans-serif; background: #f5f7fa; padding: 40px; }
+        .wizard { max-width: 800px; margin: 0 auto; background: white; padding: 32px; border-radius: 16px; }
+        .step { display: none; }
+        .step.active { display: block; }
+        .progress-bar { height: 8px; background: #eee; border-radius: 4px; margin-bottom: 32px; }
+        .progress-fill { height: 100%; background: #1976D2; width: 25%; transition: 0.3s; }
+        .btn-group { display: flex; gap: 16px; margin-top: 24px; }
+        .btn { padding: 12px 24px; border-radius: 8px; cursor: pointer; border: none; font-weight: 600; }
+        .btn-next { background: #1976D2; color: white; }
+        .btn-prev { background: #eee; }
+    </style>
+</head>
+<body>
+    <div class="wizard">
+        <div class="progress-bar"><div class="progress-fill" id="fill"></div></div>
+        <form action="resultado.html">
+            <div class="step active" id="step1"><h3>Passo 1: Dados do Evento</h3><input type="text" placeholder="Nome do Evento"></div>
+            <div class="step" id="step2"><h3>Passo 2: Logística</h3><input type="number" placeholder="KM rodados"></div>
+            <div class="step" id="step3"><h3>Passo 3: Energia</h3><input type="number" placeholder="kWh consumidos"></div>
+            <div class="step" id="step4"><h3>Passo 4: Resíduos</h3><input type="number" placeholder="Kg de lixo"></div>
+            
+            <div class="btn-group">
+                <button type="button" class="btn btn-prev" onclick="changeStep(-1)">Anterior</button>
+                <button type="button" class="btn btn-next" id="nextBtn" onclick="changeStep(1)">Próximo</button>
+            </div>
+        </form>
+    </div>
+    <script>
+        let currentStep = 1;
+        function changeStep(n) {
+            if (n === 1 && currentStep === 4) return;
+            document.getElementById('step' + currentStep).classList.remove('active');
+            currentStep += n;
+            document.getElementById('step' + currentStep).classList.add('active');
+            document.getElementById('fill').style.width = (currentStep * 25) + '%';
+            if (currentStep === 4) document.getElementById('nextBtn').innerText = 'Calcular';
+        }
+    </script>
+</body>
+</html>
